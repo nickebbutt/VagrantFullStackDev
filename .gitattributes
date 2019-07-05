@@ -1,0 +1,7 @@
+
+# Set the default behavior, in case people don't have core.autocrlf set.
+# * text=auto
+
+# Always use 'nix line endings since config files are copied into the linux vm
+* text eol=lf
+
