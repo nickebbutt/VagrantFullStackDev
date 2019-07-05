@@ -51,7 +51,7 @@ Vagrant.configure("2") do |config|
   #
   config.vm.provider "virtualbox" do |vb|
      # Display the VirtualBox GUI when booting the machine
-     # vb.gui = true
+     vb.gui = true
   
      # Customize the amount of memory on the VM:
      vb.memory = "4096"
@@ -90,22 +90,35 @@ Vagrant.configure("2") do |config|
       i7z \
       dos2unix \
       docker.io \
-      docker-compose
+      docker-compose 
+      
+    # Install ubuntu desktop and virtualbox additions
+    apt-get install -y ubuntu-desktop virtualbox-guest-dkms
+    sed -i 's/allowed_users=.*$/allowed_users=anybody/' /etc/X11/Xwrapper.config
     
   SHELL
   
+  config.vm.provider "virtualbox" do |v|
+     v.customize ["modifyvm", :id, "--vram", "256"]
+  end
+  
   config.vm.provision "file", source: "config/.bash_aliases", destination: ".bash_aliases"
   
+  
   config.vm.provision "docker" do |d|
-    d.run "dev",
-      image: "janick388/ubuntu-dev-tools",
-      cmd: "sleep infinity",
-      args: "-v /var/run/docker.sock:/var/run/docker.sock -v /home/dev:/home/dev"
+    #d.run "dev",
+    #  image: "janick388/ubuntu-dev-tools",
+    # cmd: "sleep infinity",
+    #  args: "-v /var/run/docker.sock:/var/run/docker.sock -v /home/dev:/home/dev"
       
-    d.run "node8",
-      image: "node:8", 
-      cmd: "sleep infinity",
-      args: "-v /home/dev:/home/dev -p 3000:3000"
+    #d.run "node10",
+    #  image: "node:10", 
+    #  cmd: "sleep infinity",
+    #  args: "-v /home/dev:/home/dev -p 3000:3000"
       
+    d.run "node10",
+      image: "node:10", 
+      cmd: "sleep infinity",
+      args: "-v /:/home/hostfs -p 3000:3000"
   end
 end
