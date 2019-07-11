@@ -103,6 +103,7 @@ Vagrant.configure("2") do |config|
   end
   
   config.vm.provision "file", source: "config/.bash_aliases", destination: ".bash_aliases"
+  config.vm.provision "file", source: "config/.bash_profile", destination: ".bash_profile"
   
   
   config.vm.provision "docker" do |d|
