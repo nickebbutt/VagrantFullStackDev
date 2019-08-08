@@ -12,7 +12,8 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "ubuntu/disco64"
+  # config.vm.box = "ubuntu/disco64"
+  config.vm.box = "logicmint/ubuntu1904"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -57,6 +58,12 @@ Vagrant.configure("2") do |config|
      vb.memory = "8192"
      vb.cpus = 4
    end
+   
+   config.vm.provider "parallels" do |prl|
+     prl.memory = 8192
+     prl.cpus = 4
+   end
+   
   #
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -66,37 +73,38 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
   
-  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-      vim \
-      curl \
-      net-tools \
-      netcat \
-      wget \
-      whois \
-      openssh-client \
-      openssl \
-      git \
-      git-man \
-      lsof \
-      telnet \
-      zip \
-      unzip \
-      rsync \
-      sed \
-      gawk \
-      time \
-      ncurses-base \
-      ncurses-bin \
-      vim-doc \
-      i7z \
-      dos2unix \
-      docker.io \
-      docker-compose 
+  #apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+  #    vim \
+  #    curl \
+  #    net-tools \
+  #    netcat \
+  #    wget \
+  #    whois \
+  #    openssh-client \
+  #    openssl \
+  #    git \
+  #    git-man \
+  #    lsof \
+  #    telnet \
+  #    zip \
+  #    unzip \
+  #    rsync \
+  #    sed \
+  #    gawk \
+  #    time \
+  #    ncurses-base \
+  #    ncurses-bin \
+  #    vim-doc \
+  #    i7z \
+  #    dos2unix \
+  #    docker.io \
+  #    docker-compose 
       
     # Install ubuntu desktop and virtualbox additions
-    apt-get install -y ubuntu-desktop virtualbox-guest-dkms
-    sed -i 's/allowed_users=.*$/allowed_users=anybody/' /etc/X11/Xwrapper.config
+  #   apt-get install -y ubuntu-desktop virtualbox-guest-dkms
+  #   sed -i 's/allowed_users=.*$/allowed_users=anybody/' /etc/X11/Xwrapper.config
     
+   echo "Done" 
   SHELL
   
   config.vm.provider "virtualbox" do |v|
